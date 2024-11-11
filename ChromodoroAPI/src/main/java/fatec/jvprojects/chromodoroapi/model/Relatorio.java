@@ -5,9 +5,11 @@ import java.time.LocalTime;
 public class Relatorio {
     private String id;
 
-    private LocalTime totalHorasPomodoro = LocalTime.of(0,0,0);
+    private String idUsuario;
 
-    private LocalTime totalHorasPausadas = LocalTime.of(0, 0, 0);
+    private LocalTime totalHorasPomodoro;
+
+    private LocalTime totalHorasPausadas;
 
     private int totalTarefasConcluidas = 0;
 

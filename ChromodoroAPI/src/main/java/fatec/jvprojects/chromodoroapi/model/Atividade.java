@@ -16,7 +16,12 @@ public class Atividade {
 
     private String status;
 
-    
+    public Atividade(String idUsuario, String titulo, String descricao, String status) {
+        this.idUsuario = idUsuario;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.status = status;
+    }
 
     public String getId() {
         return id;
