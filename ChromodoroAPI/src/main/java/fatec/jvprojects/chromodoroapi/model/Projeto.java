@@ -9,7 +9,11 @@ public class Projeto extends Atividade {
 
     private List<Tarefa> tarefas;
 
-    public Projeto(String idUsuario, String titulo, String descricao, String status, List<Tarefa> tarefas) {
+    public Projeto(Usuario idUsuario, String titulo, String descricao, String status) {
+        super(idUsuario, titulo, descricao, status);
+    }
+
+    public Projeto(Usuario idUsuario, String titulo, String descricao, String status, List<Tarefa> tarefas) {
         super(idUsuario, titulo, descricao, status);
         this.tarefas = tarefas;
     }

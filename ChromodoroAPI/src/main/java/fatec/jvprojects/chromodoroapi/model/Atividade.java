@@ -8,7 +8,7 @@ public class Atividade {
     @Id
     private String id;
 
-    private String idUsuario;
+    private Usuario idUsuario;
 
     private String titulo;
 
@@ -16,7 +16,7 @@ public class Atividade {
 
     private String status;
 
-    public Atividade(String idUsuario, String titulo, String descricao, String status) {
+    public Atividade(Usuario idUsuario, String titulo, String descricao, String status) {
         this.idUsuario = idUsuario;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -31,11 +31,11 @@ public class Atividade {
         this.id = id;
     }
 
-    public String getIdUsuario() {
+    public Usuario getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
 

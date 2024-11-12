@@ -18,7 +18,7 @@ public class Tarefa extends Atividade {
 
     private LocalTime totalPausa;
 
-    public Tarefa(String idUsuario, String titulo, String descricao, String status, Projeto idProjeto, int estCiclos, int totalCiclos, LocalTime totalTempo, LocalTime totalPausa) {
+    public Tarefa(Usuario idUsuario, String titulo, String descricao, String status, Projeto idProjeto, int estCiclos, int totalCiclos, LocalTime totalTempo, LocalTime totalPausa) {
         super(idUsuario, titulo, descricao, status);
         this.idProjeto = idProjeto;
         this.estCiclos = estCiclos;
@@ -26,6 +26,15 @@ public class Tarefa extends Atividade {
         this.totalTempo = totalTempo;
         this.totalPausa = totalPausa;
     }
+
+    public Tarefa(Usuario idUsuario, String titulo, String descricao, String status, int estCiclos, int totalCiclos, LocalTime totalTempo, LocalTime totalPausa) {
+        super(idUsuario, titulo, descricao, status);
+        this.estCiclos = estCiclos;
+        this.totalCiclos = totalCiclos;
+        this.totalTempo = totalTempo;
+        this.totalPausa = totalPausa;
+    }
+
 
     public Projeto getIdProjeto() {
         return idProjeto;
