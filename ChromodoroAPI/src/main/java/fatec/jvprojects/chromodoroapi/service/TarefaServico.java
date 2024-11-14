@@ -5,15 +5,17 @@ import fatec.jvprojects.chromodoroapi.model.Usuario;
 import fatec.jvprojects.chromodoroapi.repository.ITarefaRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TarefaServico implements ITarefaServico {
 
     Logger logger = LogManager.getLogger(this.getClass());
 
-    ITarefaRepository tarefaRepository;
+    private ITarefaRepository tarefaRepository;
 
     public TarefaServico(ITarefaRepository tarefaRepository) {
         this.tarefaRepository = tarefaRepository;
