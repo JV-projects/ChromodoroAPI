@@ -3,10 +3,12 @@ package fatec.jvprojects.chromodoroapi.configuration;
 import fatec.jvprojects.chromodoroapi.model.Projeto;
 import fatec.jvprojects.chromodoroapi.model.Tarefa;
 import fatec.jvprojects.chromodoroapi.model.Usuario;
+import fatec.jvprojects.chromodoroapi.model.dto.UsuarioDTO;
 import fatec.jvprojects.chromodoroapi.model.enumeracoes.Status;
 import fatec.jvprojects.chromodoroapi.repository.IProjetoRepository;
 import fatec.jvprojects.chromodoroapi.repository.ITarefaRepository;
 import fatec.jvprojects.chromodoroapi.repository.IUsuarioRepository;
+import fatec.jvprojects.chromodoroapi.service.UsuarioServico;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,7 @@ public class LoadDatabase {
     CommandLineRunner initDb(MongoTemplate mongoTemplate,
                              ITarefaRepository tarefaRepository,
                              IUsuarioRepository usuarioRepository,
+                             UsuarioServico usuarioServico,
                              IProjetoRepository projetoRepository) {
         return args -> {
 
@@ -30,9 +33,9 @@ public class LoadDatabase {
             usuarioRepository.deleteAll();
             projetoRepository.deleteAll();
 
-            Usuario usuario = new Usuario("Clodowaldo", "clodowaldo@teste.com", "1234");
+            UsuarioDTO usuarioDTO = new UsuarioDTO("Clodowaldo", "clodowaldo@teste.com", "1234");
 
-            usuarioRepository.save(usuario);
+            Usuario usuario = usuarioServico.salvarUsuario(usuarioDTO).get();
 
             Projeto projeto = new Projeto(usuario, "Projeto teste", "testando projeto", Status.ANDAMENTO.getStatusNome());
 
