@@ -16,6 +16,10 @@ public class Atividade {
 
     private String status;
 
+    public Atividade() {
+
+    }
+
     public Atividade(Usuario idUsuario, String titulo, String descricao, String status) {
         this.idUsuario = idUsuario;
         this.titulo = titulo;

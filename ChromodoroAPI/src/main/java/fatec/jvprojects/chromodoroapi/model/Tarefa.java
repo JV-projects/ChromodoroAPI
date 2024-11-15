@@ -18,6 +18,14 @@ public class Tarefa extends Atividade {
 
     private LocalTime totalPausa;
 
+    public Tarefa() {
+
+    }
+
+    public Tarefa(Usuario idUsuario, String titulo, String descricao, String status) {
+        super(idUsuario, titulo, descricao, status);
+    }
+
     public Tarefa(Usuario idUsuario, String titulo, String descricao, String status, Projeto idProjeto, int estCiclos, int totalCiclos, LocalTime totalTempo, LocalTime totalPausa) {
         super(idUsuario, titulo, descricao, status);
         this.idProjeto = idProjeto;
