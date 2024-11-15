@@ -10,6 +10,7 @@ import fatec.jvprojects.chromodoroapi.repository.IUsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,8 +20,16 @@ import java.util.List;
 public class LoadDatabase {
 
     @Bean
-    CommandLineRunner initDb(ITarefaRepository tarefaRepository, IUsuarioRepository usuarioRepository, IProjetoRepository projetoRepository) {
+    CommandLineRunner initDb(MongoTemplate mongoTemplate,
+                             ITarefaRepository tarefaRepository,
+                             IUsuarioRepository usuarioRepository,
+                             IProjetoRepository projetoRepository) {
         return args -> {
+
+            tarefaRepository.deleteAll();
+            usuarioRepository.deleteAll();
+            projetoRepository.deleteAll();
+
             Usuario usuario = new Usuario("Clodowaldo", "clodowaldo@teste.com", "1234");
 
             usuarioRepository.save(usuario);
@@ -53,7 +62,13 @@ public class LoadDatabase {
 
             projetoRepository.save(projeto1);
 
+            Usuario usuarioGet = usuarioRepository.findUsuarioByEmail("clodowaldo@teste.com").get();
 
+            List<Tarefa> tarefasGet = tarefaRepository.findTarefasByIdUsuario(usuario);
+
+            System.out.println(usuarioGet.getEmail());
+
+            tarefasGet.forEach( item -> System.out.println(item.getTitulo()));
 
 
 
