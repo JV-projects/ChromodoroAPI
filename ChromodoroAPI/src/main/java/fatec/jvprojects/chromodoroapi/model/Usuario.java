@@ -1,10 +1,17 @@
 package fatec.jvprojects.chromodoroapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Document(collection = "Usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     private String id;
 
@@ -12,6 +19,7 @@ public class Usuario {
 
     private String email;
 
+    @JsonIgnore
     private String senha;
 
     public Usuario() {
@@ -57,4 +65,18 @@ public class Usuario {
     }
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return getSenha();
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
 }
