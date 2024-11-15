@@ -1,9 +1,13 @@
 package fatec.jvprojects.chromodoroapi.service;
 
+import fatec.jvprojects.chromodoroapi.exception.RegisterException;
 import fatec.jvprojects.chromodoroapi.model.Usuario;
+import fatec.jvprojects.chromodoroapi.model.dto.UsuarioDTO;
 import fatec.jvprojects.chromodoroapi.repository.IUsuarioRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +26,18 @@ public class UsuarioServico implements IUsuarioServico {
 
 
     @Override
-    public Optional<Usuario> salvarUsuario(Usuario usuario) {
+    public Optional<Usuario> salvarUsuario(UsuarioDTO usuario) throws RegisterException {
         logger.info("|--- Serviço - Salvar usuário ---|");
 
-        return Optional.of(usuarioRepository.insert(usuario));
+        if (encontrarPorEmail(usuario.email()).isPresent()) {
+            throw new RegisterException("E-mail informado já está cadastrado");
+        }
+            String senhaCripto = new BCryptPasswordEncoder().encode(usuario.senha());
+            Usuario newUsuario = new Usuario(usuario.nome(), usuario.email(), senhaCripto);
+
+
+
+        return Optional.of(usuarioRepository.insert(newUsuario));
     }
 
     @Override
