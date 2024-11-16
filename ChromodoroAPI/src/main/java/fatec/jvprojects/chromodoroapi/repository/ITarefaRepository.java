@@ -6,8 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface ITarefaRepository extends MongoRepository<Tarefa, String> {
-    List<Tarefa> findTarefasByIdUsuario(Usuario usuario);
+    Stream<Tarefa> findTarefasByIdUsuario(Usuario usuario);
 }
