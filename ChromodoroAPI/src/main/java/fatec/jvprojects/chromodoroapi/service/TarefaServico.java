@@ -17,13 +17,20 @@ public class TarefaServico implements ITarefaServico {
 
     private ITarefaRepository tarefaRepository;
 
-    public TarefaServico(ITarefaRepository tarefaRepository) {
+    private UsuarioServico usuarioServico;
+
+    public TarefaServico(ITarefaRepository tarefaRepository, UsuarioServico usuarioServico) {
         this.tarefaRepository = tarefaRepository;
+        this.usuarioServico = usuarioServico;
     }
 
     @Override
-    public Optional<Tarefa> salvarTarefa(Tarefa tarefa) {
+    public Optional<Tarefa> salvarTarefa(Tarefa tarefa, String email) {
         logger.info("|--- Serviço - Salvar tarefa ---|");
+
+        Usuario usuario = usuarioServico.encontrarPorEmail(email).orElseThrow();
+
+        tarefa.setIdUsuario(usuario);
 
         return Optional.of(tarefaRepository.insert(tarefa));
     }
@@ -32,20 +39,31 @@ public class TarefaServico implements ITarefaServico {
     public List<Tarefa> listarTarefasUsuario(Usuario usuario) {
         logger.info("|--- Serviço - Listar tarefas do usuário ---|");
 
-        return tarefaRepository.findTarefasByIdUsuario(usuario);
+        return tarefaRepository.findTarefasByIdUsuario(usuario)
+                .filter( tarefa -> tarefa.getIdProjeto() == null).toList();
     }
 
     @Override
-    public Optional<Tarefa> atualizarTarefa(Tarefa tarefa) {
+    public Optional<Tarefa> atualizarTarefa(Tarefa newTarefa) {
         logger.info("|--- Serviço - Atualizar tarefa ---|");
 
-        return Optional.of(tarefaRepository.save(tarefa));
+        return tarefaRepository.findById(newTarefa.getId())
+                .map( tarefa -> {
+                    tarefa.setTitulo(newTarefa.getTitulo());
+                    tarefa.setDescricao(newTarefa.getDescricao());
+                    tarefa.setStatus(newTarefa.getStatus());
+                    tarefa.setEstCiclos(newTarefa.getEstCiclos());
+                    tarefa.setTotalCiclos(newTarefa.getTotalCiclos());
+                    tarefa.setTotalTempo(newTarefa.getTotalTempo());
+                    tarefa.setTotalPausa(newTarefa.getTotalPausa());
+                    return tarefaRepository.save(tarefa);
+                });
     }
 
     @Override
-    public void excluirTarefa(Tarefa tarefa) {
+    public void excluirTarefa(String idTarefa) {
         logger.info("|--- Serviço - Excluir tarefa ---|");
 
-        tarefaRepository.delete(tarefa);
+        tarefaRepository.deleteById(idTarefa);
     }
 }
