@@ -1,5 +1,6 @@
 package fatec.jvprojects.chromodoroapi.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import fatec.jvprojects.chromodoroapi.model.enumeracoes.Status;
 import org.springframework.data.annotation.Id;
 
@@ -63,9 +64,14 @@ public class Atividade {
         return status;
     }
 
+    @JsonSetter
     public void setStatus(Status status) {
         if (status != null) {
             this.status = status.getStatusNome();
         }
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
