@@ -67,11 +67,9 @@ public class LoadDatabase {
 
             Usuario usuarioGet = usuarioRepository.findUsuarioByEmail("clodowaldo@teste.com").get();
 
-            List<Tarefa> tarefasGet = tarefaRepository.findTarefasByIdUsuario(usuario);
-
             System.out.println(usuarioGet.getEmail());
 
-            tarefasGet.forEach( item -> System.out.println(item.getTitulo()));
+
 
 
 
