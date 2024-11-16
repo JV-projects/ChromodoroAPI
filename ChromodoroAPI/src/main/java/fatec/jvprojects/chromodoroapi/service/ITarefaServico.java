@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITarefaServico {
-    Optional<Tarefa> salvarTarefa(Tarefa tarefa);
+    Optional<Tarefa> salvarTarefa(Tarefa tarefa, String email);
 
     List<Tarefa> listarTarefasUsuario(Usuario usuario);
 
     Optional<Tarefa> atualizarTarefa(Tarefa tarefa);
 
-    void excluirTarefa(Tarefa tarefa);
+    void excluirTarefa(String idTarefa);
 
 }
