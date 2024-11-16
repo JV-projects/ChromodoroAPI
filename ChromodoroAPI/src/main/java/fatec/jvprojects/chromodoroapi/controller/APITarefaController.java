@@ -2,7 +2,6 @@ package fatec.jvprojects.chromodoroapi.controller;
 
 import fatec.jvprojects.chromodoroapi.model.Tarefa;
 import fatec.jvprojects.chromodoroapi.model.Usuario;
-import fatec.jvprojects.chromodoroapi.repository.ITarefaRepository;
 import fatec.jvprojects.chromodoroapi.service.TarefaServico;
 import fatec.jvprojects.chromodoroapi.service.UsuarioServico;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("chromodoro/api/tarefas")
+@RequestMapping("chromodoro/api")
 public class APITarefaController {
     Logger logger = LogManager.getLogger(this.getClass());
 
@@ -38,10 +37,10 @@ public class APITarefaController {
     }
 
     @PostMapping("tarefas")
-    public ResponseEntity<Optional<Tarefa>> salvarTarefa(@RequestBody Tarefa tarefa) {
+    public ResponseEntity<Optional<Tarefa>> salvarTarefa(@RequestBody Tarefa tarefa, @RequestParam String email) {
         logger.info("API --> Salvar tarefa {}", tarefa.getTitulo());
 
-        return ResponseEntity.ok().body(tarefaServico.salvarTarefa(tarefa));
+        return ResponseEntity.ok().body(tarefaServico.salvarTarefa(tarefa, email));
     }
 
     @PatchMapping("tarefas")
@@ -51,4 +50,12 @@ public class APITarefaController {
         return ResponseEntity.ok().body(tarefaServico.atualizarTarefa(tarefa));
     }
 
+    @DeleteMapping("tarefas")
+    public ResponseEntity<String> deletarTarefa(@RequestParam String id) {
+        logger.info("API --> Deletar tarefa, id: {}", id);
+
+        tarefaServico.excluirTarefa(id);
+
+        return ResponseEntity.ok().body("Tarefa com id: " + id + " deletada com sucesso");
+    }
 }
