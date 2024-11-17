@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface IProjetoRepository extends MongoRepository<Projeto, String> {
-    List<Projeto> findProjetosByIdUsuario(Usuario usuario);
+    List<Projeto> findProjetoByIdUsuarioEmail(String email);
 }
