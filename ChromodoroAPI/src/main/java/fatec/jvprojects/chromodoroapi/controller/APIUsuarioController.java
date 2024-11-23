@@ -4,6 +4,7 @@ import fatec.jvprojects.chromodoroapi.configuration.security.TokenService;
 import fatec.jvprojects.chromodoroapi.exception.RegisterException;
 import fatec.jvprojects.chromodoroapi.model.Usuario;
 import fatec.jvprojects.chromodoroapi.model.dto.CredenciaisDTO;
+import fatec.jvprojects.chromodoroapi.model.dto.ResponseAuthDTO;
 import fatec.jvprojects.chromodoroapi.model.dto.UsuarioDTO;
 import fatec.jvprojects.chromodoroapi.service.UsuarioServico;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +37,7 @@ public class APIUsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody CredenciaisDTO credenciais) {
+    public ResponseEntity<Object> login(@RequestBody CredenciaisDTO credenciais) {
         logger.info("API --> Logar com as credenciais: username: {}, senha: {}",
                 credenciais.username(), credenciais.senha());
 
@@ -47,7 +48,11 @@ public class APIUsuarioController {
 
         String token = tokenService.gerarToken((Usuario) auth.getPrincipal());
 
-        return ResponseEntity.ok().body(token);
+        Usuario usuario = usuarioServico.encontrarPorEmail(credenciais.username()).get();
+
+        ResponseAuthDTO responseAuthDTO = new ResponseAuthDTO(usuario.getNome(), usuario.getUsername(), token);
+
+        return ResponseEntity.ok().body(responseAuthDTO);
     }
 
     @PostMapping("/registrar")
